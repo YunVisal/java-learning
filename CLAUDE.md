@@ -37,8 +37,9 @@
 - Briefly revisit anything the log says I struggled with before starting new material.
 
 ## Session end
-- Before I finish, remind me to write my learning-log entry in PROGRESS.md
-  (what I built and what confused me). Don't write it for me.
+- Before I finish, write the learning-log entry in PROGRESS.md yourself
+  (what I built, what I understood, and what confused me or needs revisiting).
+  You keep the log; I don't write it.
 - Remind me to commit and push my work to GitHub.
 
 ## Weekly rhythm
