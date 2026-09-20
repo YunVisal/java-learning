@@ -58,3 +58,45 @@
 
 **Next session:** Week 1 practice — integer division (`7 / 2` vs `7.0 / 2`), then `if`/`else`,
 building toward the tip-calculator project on the weekend.
+
+## 2026-09-20 — Week 1, session 2: division and if/else
+
+**Built / did**
+- Predicted `7 / 2` → `3` and `7.0 / 2` → `3.5` correctly with no prompting.
+- Wrote `Average.java`: three `int` scores averaged as a `double`, printed to one decimal.
+- Wrote `Grader.java`: reads a score with `Scanner`, prints a letter grade via an
+  `if` / `else if` chain, and rejects scores outside 0–100 before grading.
+
+**Understood**
+- `double result = 7 / 2;` prints `3.0`. He explained *why* unprompted and correctly: the
+  right-hand side is evaluated on its own using its operands' types, so `int / int` is `int`,
+  and the widening to `double` happens only at assignment — too late.
+- `int` division truncates, it does not round.
+- Placed the `(double)` cast correctly: `(double)(sum) / 3`, not `(double)(sum / 3)`.
+- Saw the trap both ways: with the cast `85.7`, without it `85.0` — a wrong answer that raises
+  no error at all. He seemed to take the point that silent wrongness beats a crash for danger.
+- `if` / `else if` stops at the first true branch, so earlier conditions carry the upper bound
+  of later ones — which is also why reordering the chain silently breaks it.
+- Validity check must come first in the chain, since every later branch assumes a valid score.
+
+**Corrections made**
+- My error, not his: I gave him scores `90/85/80` to expose the integer-division trap, but they
+  average to exactly `85`, so the trap stayed hidden. Changed `score3` to `82` to make it show.
+  Pick numbers that actually discriminate when setting up a demonstration.
+- His first invalid-score message was `"greater than 100 or less than 0"` — a restatement of the
+  `if` condition rather than something useful to a user. Same underlying habit as his circular
+  answers: describing the mechanism instead of the meaning. Flagged the connection explicitly.
+- Brace/space style: fixed `if(` → `if (` and moved `else` onto the closing-brace line, then it
+  regressed on the next edit. Pointed him at Cmd+Opt+L.
+
+**Shaky, revisit next time**
+- The restate-instead-of-explain habit. It has now shown up in three places (`origin`, "what does
+  the compiler gain", the error message). Keep pushing for concrete specifics.
+- Magic number `3` in `Average.java`, hardcoded to match the number of score variables. Named as
+  a coupling problem that arrays solve in Week 3; not fixed.
+- `Integer.parseInt` still crashes on non-numeric input in both `Greeter` and `Grader`. Still
+  deliberately unfixed — needs exception handling, which is past Week 1.
+- Scanner never closed anywhere; try-with-resources not covered yet.
+
+**Next session:** Week 1 project — `TipCalculator.java`, being built in three steps. Step 1
+(read bill and tip percent, print tip and total to two decimals) has been given.
