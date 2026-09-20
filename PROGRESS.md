@@ -100,3 +100,47 @@ building toward the tip-calculator project on the weekend.
 
 **Next session:** Week 1 project — `TipCalculator.java`, being built in three steps. Step 1
 (read bill and tip percent, print tip and total to two decimals) has been given.
+
+## 2026-09-20 — Week 1, session 3: tip calculator project ✅ (Week 1 complete)
+
+**Built / did**
+- `TipCalculator.java`, built in three steps: (1) bill + tip percent → tip and total,
+  (2) party size → per-person share, (3) input validation.
+- Adopted the `tipPercentage / 100.0` idiom over casting the variable.
+- Turned on IntelliJ format-on-save (Settings → Tools → Actions on Save → Reformat code).
+- `README.md` added at the repo root.
+
+**Understood**
+- Avoided the integer-division trap unprompted this time — no reminder needed.
+- Wrote the validation as **guard clauses**: check each value right after reading it, `return`
+  immediately on failure. He arrived at this himself rather than nesting the work inside one
+  big `if (valid)` block. Named the pattern for him and explained why it scales better.
+- Floating-point division by zero yields `Infinity` rather than throwing, unlike `int` division
+  which throws `ArithmeticException`. He ran it with 0 people and saw `$Infinity` printed as if
+  it were a real answer — third instance this week of "the dangerous failure is the quiet one."
+
+**Corrections made**
+- Missing `%n` on the last `printf` — the identical bug he fixed in `Variables.java` in session 1.
+  Pointed out that new last lines are where he stops checking consistency.
+- `if(` spacing regressed for the third time. Rather than correcting it again, had him enable
+  format-on-save so it stops being a thing he has to remember.
+- Error-message phrasing: `"People mustn't less than 1"` → `"Number of people must be at least 1."`
+  Covered naming the field rather than a bare noun, plain positive phrasing, and consistent
+  punctuation across all messages.
+
+**Note on the README**
+- I offered the README as his task; he asked me to write it instead, so I did, and told him to
+  edit it into his own voice. Worth revisiting — it's the first thing a recruiter reads on the
+  repo and it currently isn't his writing. Technical writing is a skill he should practice
+  rather than delegate; try assigning the Week 2 README to him again.
+
+**Shaky, revisit next time**
+- The restate-instead-of-explain habit — quieter this session, but keep testing for it.
+- Still unfixed by design: `parseInt`/`parseDouble` crash on non-numeric input; `Scanner` never
+  closed; `double` used for money; magic `3` in `Average.java`.
+- Not yet explained: what `static` and `String[] args` mean. He has now written them many times
+  without knowing what they do. Worth covering early in Week 2, alongside methods.
+
+**Next session:** Week 2 — loops (`while`, `for`) and methods. Project: number-guessing game.
+Methods are the natural moment to finally explain `static`, parameters and return types, and to
+let him pull the repeated validation in `TipCalculator` into a reusable method.
