@@ -144,3 +144,103 @@ building toward the tip-calculator project on the weekend.
 **Next session:** Week 2 — loops (`while`, `for`) and methods. Project: number-guessing game.
 Methods are the natural moment to finally explain `static`, parameters and return types, and to
 let him pull the repeated validation in `TipCalculator` into a reusable method.
+
+## 2026-09-21 — Week 2, session 1: loops (`while`, `for`, sentinel)
+
+**Built / did**
+- `Countdown.java`: a `while` loop printing 5→1 then `Liftoff!`. Correct on the first try.
+- `AverageLoop.java`: reads N scores with a loop and averages them — the loop-based answer to the
+  hardcoded `3` in `Average.java`. Started as a countdown, converted to counting up, then to `for`.
+- `ScoreTally.java`: a sentinel loop reading scores until `-1`, reporting count and average.
+  Took five review rounds.
+
+**Understood**
+- The three parts every loop needs: start, condition, change — and that missing the change hangs
+  the program.
+- Off-by-one: predicted `timer >= 0` correctly. Took the point that a one-character change to the
+  boundary shifts the count by one with no error anywhere.
+- Scope: predicted correctly that `System.out.println(i)` after a `for` loop won't compile, and
+  accepted that this is a feature — the `while` version leaked `remaining` past its useful life.
+- Why `0.0 / 0` is `NaN` but `5.0 / 0` is `Infinity`.
+- An average is a **result**, computed once after the loop — not state maintained inside it.
+  He had been recomputing it every iteration, which forced a fake `0.0` initial value, which
+  produced the bug below.
+- A pre-initialized default can be worse than a crash: `AverageLoop` showed `NaN` on empty input
+  (obviously broken), while `ScoreTally` showed `Average score: 0.0` (a plausible-looking lie).
+  Fourth instance of "the dangerous failure is the quiet one."
+- Reached for `do...while` unprompted, before it was taught.
+
+**Corrections made**
+- **`for` vs `while` took four attempts.** His first three answers were rules restated from the
+  syntax ("use `for` when you know how many times") — including one that handed my own nudge
+  straight back. Only landed when given a concrete scenario (a password prompt) and asked for
+  the trip count: "we don't know, it depends on the user." That is the real distinction —
+  `for` = trip count known before the first pass, `while` = ends on an event.
+- **Dead code in the sentinel loop.** He had both `if (input == -1) break;` and
+  `} while (input != -1);`. The `break` makes the `while` condition unreachable-false — it looks
+  like it controls the loop and does nothing. He removed it correctly once traced.
+- **Naming:** `totalLoop` → `remaining` → a counter that counts up (so `remaining` became a lie);
+  `numberOfLoop` → `numberOfInput`. Recurring pattern: he names variables after the loop
+  machinery rather than the thing being counted.
+- **Leftover declaration:** `int input = 0;` stayed outside the loop after the `do...while`
+  condition that needed it was removed. Same lesson as `i` disappearing into the `for` header.
+
+**Shaky, revisit next time**
+- **The restate-instead-of-explain habit — this is now the dominant issue.** Six instances to
+  date (`origin`, the compiler question, the `Grader` message, "Total of input", "Stopped!",
+  "Bye, bye!"). The `ScoreTally` empty-case message took four separate rounds: he kept
+  *relocating* the message instead of *rewriting* it, and swapped one non-answer ("Stopped!")
+  for another ("Bye, bye!"). What finally worked was an explicit test he can self-apply:
+  *show the message to someone who has never seen the code — can they say what happened to their
+  data?* Reuse that test rather than re-explaining.
+- English in user-facing strings: "No score was entered, cannot computed", "Number of score".
+  Worth correcting each time — it is the visible surface of his work.
+- `if (` spacing held this session, but he never confirmed whether format-on-save is actually
+  enabled. Ask once.
+- Still unfixed by design: `parseInt` crashes on non-numeric input everywhere; `Scanner` never
+  closed; `double` for money; magic `3` in the original `Average.java`.
+- Not yet explained: `static`, `String[] args`.
+
+**Next session:** Week 2 continues — **methods**. This is the moment to explain `static`,
+parameters and return types, then have him extract the repeated `Integer.parseInt(scanner.nextLine())`
++ validation from `TipCalculator` into a reusable method. The number-guessing game is the weekend
+project; his sentinel loop in `ScoreTally` is already the right shape for its main loop.
+Assign the Week 2 README to him this time — the Week 1 one is my writing, not his.
+
+### Addendum — he asked to work on the restate-instead-of-explain habit
+
+He raised this himself after the session wrap, unprompted. Worth noting: he is now tracking his
+own weaknesses, which is a change.
+
+**What was established**
+- The habit does *not* show up on "what does X do" questions — he handles those fine. It appears on
+  **"why" questions** and in **user-facing text**. My first drill ("what does `break` do?" with the
+  word banned) was badly targeted and he correctly pushed back that he had answered the question
+  asked. He was right; I conceded it.
+- The rule he now has: **answer with an instance, not a category** — every abstract answer must be
+  followable by "for example, if…" with real values. Its value is diagnostic: if the instance won't
+  come, the understanding is a memorised phrase.
+- He produced a clean non-circular answer on the second drill (why the `numberOfInput > 0` guard
+  exists), naming the *consequence* — a misleading result reaching the user — rather than restating
+  the condition. Real progress against the `Grader` message from Week 1.
+
+**Two errors inside that otherwise-good answer**
+- Called `-1` a "program exit code." It is a **sentinel value**; an exit code is what a process
+  returns to the OS. Reaching for a technical-sounding term instead of the true one is a variant of
+  the same habit.
+- Claimed the unguarded version prints `0`. It prints `NaN`. He reasoned correctly from a mental
+  model two edits stale — the version that still had `double averageScore = 0.0;` at the top.
+
+**The more useful lesson (his second push-back)**
+He objected to being asked to run the program, saying his purpose was to improve reasoning, not to
+test. Partly fair — I should have asked him to derive it, and did. But the point stands and landed:
+his wrong claim came from correct reasoning over a stale premise, which thinking harder cannot
+catch, because it re-runs the same premise. Framed for him as a second self-check:
+**is the version in my head the version on disk?**
+
+**How to teach this going forward**
+- Target "why" questions and user-facing strings, not "what" questions.
+- State the purpose of a drill *before* setting constraints. He disengages from constraints that
+  look arbitrary, and he is right to.
+- He pushes back when he thinks an exercise is pointless. This is good. Answer the objection
+  directly rather than repeating the instruction.
