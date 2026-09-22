@@ -13,19 +13,9 @@ public class TipCalculator {
             return;
         }
 
-        System.out.print("Enter your tip percentage: ");
-        int tipPercentage = Integer.parseInt(scanner.nextLine());
-        if (tipPercentage < 0) {
-            System.out.println("Tip percentage cannot be negative.");
-            return;
-        }
+        int tipPercentage = readInt(scanner, "Enter your tip percentage: ", 0, "Tip percentage cannot be negative.");
 
-        System.out.print("Enter number of people: ");
-        int people = Integer.parseInt(scanner.nextLine());
-        if (people < 1) {
-            System.out.println("Number of people must be at least 1.");
-            return;
-        }
+        int people = readInt(scanner, "Enter number of people: ", 1, "Number of people must be at least 1.");
 
         double tipAmount = (tipPercentage / 100.0) * billAmount;
         double totalAmount = billAmount + tipAmount;
@@ -34,5 +24,16 @@ public class TipCalculator {
         System.out.printf("Tip: $%.2f%n", tipAmount);
         System.out.printf("Total: $%.2f%n", totalAmount);
         System.out.printf("Individual split: $%.2f%n", splitAmount);
+    }
+
+    static int readInt(Scanner scanner, String prompt, int minimumAllowedValue, String validationMessage) {
+        while (true) {
+            System.out.print(prompt);
+            int value = Integer.parseInt(scanner.nextLine());
+            if (value >= minimumAllowedValue) {
+                return value;
+            }
+            System.out.println(validationMessage);
+        }
     }
 }

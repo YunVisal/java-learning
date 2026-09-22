@@ -244,3 +244,76 @@ catch, because it re-runs the same premise. Framed for him as a second self-chec
   look arbitrary, and he is right to.
 - He pushes back when he thinks an exercise is pointless. This is good. Answer the objection
   directly rather than repeating the instruction.
+
+## 2026-09-22 — Week 2, session 2: methods, `static`, and refactoring `TipCalculator`
+
+**Built / did**
+- `Methods.java`: `calculateTipAmount(billAmount, tipPercentage)` — returns the tip, prints nothing.
+  Correct on the first pass, including `%%` for a literal percent sign, which he worked out alone.
+- `TipCalculator` refactored in two steps. Step 1: extracted `readInt(scanner, prompt)` — prompt,
+  read, parse — replacing two near-identical blocks. Step 2: added a minimum bound and a loop, so
+  the method re-prompts until the value is valid and the two `if` guards in `main` disappeared.
+- `static`, instance methods and `String[] args` finally explained.
+
+**Understood**
+- **`for` vs `while` has landed.** Given a fresh pair of scenarios (times table / menu until Quit) he
+  named the deciding fact himself — trip count known before the first pass vs. ends on an event.
+  This took four rounds last session and none this time.
+- A method's four parts, and that `main` is just a method Java happens to call for you.
+- `static` = belongs to the class, not to an object — anchored on two calls he already uses:
+  `scanner.nextLine()` (instance) vs `Integer.parseInt(...)` (static). Predicted the
+  `cannot be referenced from a static context` error and explained it without circling.
+- **Return vs print**: cited an actual line of his own code as the instance. Sharpened for him —
+  assigning to a variable is the symptom; the real point is the printing version *throws the answer
+  away*, so `billAmount + calculateTipAmount(...)` becomes unwritable.
+- Traced that `return` inside `readInt` goes back to `main` and continues, so the guard guards
+  nothing — and that a placeholder return value would produce a plausible total from a number the
+  user never typed. Fifth instance of "the dangerous failure is the quiet one."
+- Reached "loop until the input is valid" himself once the constraints were laid out.
+- Read the four-parameter trade-off correctly: two adjacent `String` params can be swapped with no
+  compiler complaint, but a method-built message loses the domain word ("Number of people"). He
+  kept the four-parameter version. Told him explicitly that this is a judgement call, not a defect.
+
+**Corrections made**
+- **Commented-out old code left in the file** after Step 1 — the replaced lines kept as comments.
+  Explained why Git makes that a liability, not a safety net. Same shape as the leftover
+  `int input = 0;` in `ScoreTally`: the old thing survives the change that made it pointless.
+- **New pattern, and the most useful thing to come out of tonight: he corrects by *appending*, not
+  by *replacing*.** `message` → I asked for `prompt` → he wrote `promptMessage`, and kept it through
+  a second ask. It took three asks. This is the same move as the `ScoreTally` empty-case message
+  last session, where he kept relocating the string instead of rewriting it. It reads as agreement
+  while conceding nothing. Told him directly that pushing back is welcome but half-keeping is not.
+  **Watch for this specifically: after a correction, check whether the old thing is actually gone.**
+- Money formatting: `%.2f` for the tip but `%.1f` for the bill in the same line — `$60.0` isn't how
+  money is written. His weakest surface remains user-facing output.
+- `double billAmount = 60;` → `60.0`. Compiles either way; the point was making intent visible
+  rather than relying on a silent widening.
+- "object method" → **instance method**. Same reflex as "exit code" for "sentinel value" last
+  session: reaching for a plausible-sounding term instead of the real one.
+- `readIntegerInput` → `readInt` ("read" and "Input" say the same thing twice).
+- The `if (invalid) { print } else { return }` shape → guard clause. He owns this pattern already
+  from Week 1; he just didn't recognise the situation. Flipped it to `>=` cleanly.
+- Asked for the two problems with a bare `return` inside `readInt`; he gave one correct answer and
+  then answered a different question (differing bounds/messages). Got the second on one nudge.
+
+**Shaky, revisit next time**
+- **The append-instead-of-replace habit.** This is now the sharper diagnosis of what I had been
+  filing as "restate instead of explain" — both are modifying around the edge of a thing rather
+  than replacing it. Easier to test for: after any correction, is the old version *gone*?
+- The restate habit itself was much quieter this session. Four separate answers came back as
+  concrete instances without being asked twice. Real improvement — keep testing, stop expecting it.
+- `billAmount` still reads and validates the old way, because it's a `double` and `readInt` can't
+  take it. Left deliberately — the fix is overloading or generics, neither covered yet. Good
+  opening for a future session on why two methods can share a name.
+- Still unfixed by design: `parseInt` crashes on non-numeric input everywhere; `Scanner` never
+  closed; `double` used for money; magic `3` in `Average.java`.
+- Format-on-save is enabled but never fires, because he doesn't explicitly save. Told him to hit
+  Cmd+S. Check next session whether the habit stuck.
+
+**Next session (Thursday):** Week 2 practice + review — exercises on methods, one at a time.
+Good candidates: extract the sentinel loop in `ScoreTally` into a method that returns the average;
+write a method that returns a `boolean`; and one that takes no parameters, so he sees that
+parameters are a choice rather than a requirement. Then the weekend project, the number-guessing
+game — his `ScoreTally` loop is already the right shape for its main loop.
+**The Week 2 README is his to write, not mine.** The Week 1 one is my writing and shouldn't stay
+the only voice on the repo.
