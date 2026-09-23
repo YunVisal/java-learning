@@ -317,3 +317,89 @@ parameters are a choice rather than a requirement. Then the weekend project, the
 game — his `ScoreTally` loop is already the right shape for its main loop.
 **The Week 2 README is his to write, not mine.** The Week 1 one is my writing and shouldn't stay
 the only voice on the repo.
+
+## 2026-09-23 — Week 2, session 3: methods practice, `boolean` returns, constants
+
+**Built / did**
+- `ScoreTally` rebuilt end to end, all of it his typing:
+  - Loop extracted into `readScoresAndComputeAverage()` — reads until the sentinel, prints the
+    count, returns the average. `main` is now three lines and a `printf`.
+  - `isInputValid(score, lowerBound, upperBound)` — a one-line `boolean` method, no printing.
+  - Out-of-range scores rejected and re-prompted instead of silently added to the total.
+  - Four constants introduced: `MIN_ALLOWED_SCORE`, `MAX_ALLOWED_SCORE`, `QUIT_INPUT`,
+    `AVERAGE_NOT_COMPUTED`.
+  - Empty-case message rewritten to tell the user what to do, not just what failed.
+- `static final` and `SCREAMING_SNAKE_CASE` taught for the first time.
+
+**Understood**
+- **He hit the "a method returns exactly one value" wall on his own**, before writing a line of
+  code, and asked about it directly instead of guessing. Best moment of the session.
+- Named the sentinel principle himself once pointed at his own `-1`: a sentinel must come from
+  **outside** the range of real values. Applied it correctly to replace `0.0` as the "no data"
+  return, which a genuine all-zeros average was silently swallowing.
+- Saw why a `boolean` method shouldn't print, once given the instance (500 scores from a file →
+  500 error messages). Could not produce the scenario unprompted.
+- Duplicated magic numbers: named the risk as "change twice, values mismatch" without help.
+- Grasped that `-1` in the loop and `-1.0` in the return are two different meanings that happen
+  to share a value — after being shown, not before.
+
+**Corrections made**
+- **Partial compliance at exercise scale, which is new and worse than the line-level version.**
+  Exercise 2 explicitly required the validity decision to live in a `boolean` method. First
+  attempt had no such method at all — an inline `if`, and only the lower bound. Task re-issued.
+- **Append-instead-of-replace, three times in one session:**
+  1. Message fix: `"besides -1"` → asked to replace → `"any positive number besides -1"`
+     (an impossible exception; `-1` isn't positive).
+  2. `input < -1` survived into `isInputValid` as `score < -1` while its own message said
+     "must be at least 0" — condition and message contradicting each other.
+  3. `QUIT_INPUT` reused for the "no average" return, collapsing two meanings into one name.
+- **Two edits that changed nothing observable and were wrong anyway** — worth naming as a pair:
+  after separating the constants he wired them backwards (`input == AVERAGE_NOT_COMPUTED` in the
+  loop), and both constants are `-1`, so the program behaved identically. Sixth and seventh
+  instance of "the dangerous failure is the quiet one," and the first where *his own fix* was
+  the quiet failure.
+- Asked what `isInputValid(-1)` returns; he answered about what the **caller** does instead —
+  sidestep, same shape as answering a different question last session. Then said `false`; traced
+  `-1 < -1` and self-corrected to `true` in one step.
+- `score > lower && score < upper` — off-by-one, rejected exactly `0` and `100`. Found it fast
+  when asked what happens to a score of 100.
+- `println` → `printf` dropped the newline; second attempt put `%n` **before** the final period,
+  printing a lone `.` on its own line.
+- "program exit condition" for **sentinel** — third variant of reaching for a plausible-sounding
+  term (after "exit code", "object method"). Named it again.
+- Over-generalised unasked: parameterised `isInputValid`'s bounds when a one-word fix was asked
+  for. Not wrong, but it moved the domain knowledge out to the call site as bare numbers, which
+  is what forced the constants conversation.
+
+**What worked as a teaching move**
+Twice, when he was stuck editing the artifact, taking him **off the code and onto a plain-English
+sentence** produced a clean answer immediately:
+- "What are the two things a user must do?" → *"enter at least one score, then -1 to finish"* —
+  after three failed rewrites of the same string.
+- "Say in one sentence what that value tells `main`" → *"no average could be computed"* →
+  `AVERAGE_NOT_COMPUTED`.
+**Use this deliberately.** The naming and wording failures are not vocabulary problems; he can
+say the right thing, but not while looking at the wrong version of it.
+
+**Shaky, revisit next time**
+- The diagnosis has sharpened again: it is not comprehension, it is **finishing**. He reaches the
+  concept fast — often alone — and then lands the edit at about 80% and doesn't re-read the
+  result. Every correction tonight needed a second pass. **Have him read the changed line back
+  before saying "done."**
+- Exercise 3 (a method with no parameters) was never set — `readScoresAndComputeAverage()` turned
+  out to be one, so the point was made incidentally. Make it explicit if it doesn't stick.
+- `readScoresAndComputeAverage` still both reads input and prints the count. He knows the name is
+  honest about it; he hasn't yet felt why a method doing two jobs costs anything.
+- `isInputValid` takes a param called `score` — the name should probably say score too.
+- Still unfixed by design: `parseInt` crashes on non-numeric input; `Scanner` created *inside* the
+  method and never closed (he can state why passing it in is better, but his code doesn't); `==`
+  on `double`s; `double` for money in `TipCalculator`; magic `3` in `Average.java`; `billAmount`
+  can't use `readInt` (needs overloading).
+- Message wording still clunky: "Score should be at least 0 and cannot be greater than 100."
+- **Cmd+S habit: never verified this session.** Check next time.
+
+**Next session (weekend):** the Week 2 project — the **number-guessing game**. His `ScoreTally`
+loop is the right shape for its main loop, and he now has `boolean` methods and constants, which
+covers everything the game needs. Set it as one task with a stated finished behaviour, then stay
+out of the way.
+**The Week 2 README is still his to write, not mine.**
