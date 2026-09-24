@@ -464,3 +464,20 @@ out of the way.
 **Next session (weekend):** ship Week 2. Visal writes the Week 2 README section themselves; the
 Week 1 README is still my writing. Then Week 3 (arrays, `ArrayList`, `HashMap`) — the magic `3`
 in `Average.java` is the natural opening.
+
+## 2026-09-24 — Curriculum update (no coding)
+
+The plan in CLAUDE.md changed so every project is finance-flavored (banks/fintechs portfolio).
+What this changes for the open threads above:
+- **Week 3 project is now a transaction ledger** (record income/expenses, totals by category, balance),
+  not a generic data exercise. The magic `3` in `Average.java` is still a good opening for arrays,
+  then move to finance examples.
+- **"`double` for money" is no longer just "unfixed by design".** Week 4 (bank account system) is where
+  it gets fixed: learn why money uses `BigDecimal`, then revisit `TipCalculator`.
+- **READMEs are now formal English writing practice every Sunday**: what was built, why the design
+  choices, what to improve. This reinforces the note that Visal writes the Week 2 README; the Week 1
+  README is still my writing.
+- Weekly rhythm and tutor rules unchanged.
+
+**Next session (weekend):** unchanged. Ship Week 2 (Visal writes the README), then Week 3: arrays,
+`ArrayList`, `HashMap` → transaction ledger project.
