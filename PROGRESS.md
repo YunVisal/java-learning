@@ -403,3 +403,64 @@ loop is the right shape for its main loop, and he now has `boolean` methods and 
 covers everything the game needs. Set it as one task with a stated finished behaviour, then stay
 out of the way.
 **The Week 2 README is still his to write, not mine.**
+
+## 2026-09-24 — Week 2, session 4: number-guessing game (project, core done)
+
+**Built / did**
+- `GuessingGame.java`, designed and typed by Visal:
+  - Random secret in the game's range via `random.nextInt(MIN_GAME_RANGE, MAX_GAME_RANGE + 1)`.
+  - Guess loop with "Too low" / "Too high"; out-of-range guesses rejected and **not counted**.
+  - Methods: `generateSecretNumber()`, `readGuessNumber(scanner)`, `isGuessNumberValid(number)`,
+    `play(scanner)` (one round), `wantsToPlayAgain(scanner)` (returns `boolean`).
+  - Play-again loop in `main`; strict `y`/`n` input with a message that names the valid choices.
+- Confirmed format-on-save + Cmd+S is working.
+
+**Understood**
+- `nextInt(origin, bound)` has an exclusive upper bound, so `+ 1` is needed. Got it right unaided.
+- Bounds check `>=` / `<=` correct at exactly 1 and 100 first time (last session was off by one).
+- Passed the `Scanner` into methods instead of creating it inside. Last session this was known but
+  not practiced; now it's in the code.
+- Put the counter increment *after* the validity `continue`, so rejected guesses don't count.
+- Why `while (guess != secretNumber)` can't work: `guess` is scoped inside the loop body. Linked
+  moving it out (`int guess = 0;`) to the fake-default bug from `ScoreTally`.
+- Split responsibilities correctly and unprompted: `play` = one round, `main` = the session, so
+  the play-again question belongs in `main`.
+- Replacing a returned `String` with a `boolean` so the caller doesn't re-decide: named the type
+  and a good name (`wantsToPlayAgain`) immediately.
+- Applied the line-20 lesson unprompted later: the `(y/n)` prompt and error message both use the
+  constants.
+
+**Corrections made**
+- Line 20 had `"1-100"` hardcoded next to the constants — the "change it twice" risk again. Fixed.
+- **Read-back rule:** asked to read changed lines back before saying "done". First time, Visal read
+  the program's *output* rather than the code, which can't show whether the fix was real. After
+  being told, read code every time.
+- **80%-fix pattern still present:** prompt reworded (`"Number: "` → `"Enter the guess number: "`)
+  without adding the range, which was the actual ask; constant rename first only dropped `VALUE`.
+  Fixed on the second pass. `else` removed, then came back in the next rewrite; `wantsToPlayAgain`
+  written as `wantToPlayAgain`. The read-back rule catches these; keep using it.
+- Constant naming: stuck on "what do 1 and 100 describe?". One nudge (both the computer and the
+  player use them) → "the game's range" → `MIN_GAME_RANGE` / `MAX_GAME_RANGE`. The plain-English
+  sentence move worked again.
+- Explained a silent re-prompt from the programmer's view ("because I use `.equals`") instead of
+  the player's. Also called `.equals` an "operator" — it's a method. Same plausible-term habit.
+- `"Invalid choice."` → message that tells the player what to type, built from constants.
+
+**Judgement calls Visal made (respect these, don't reopen)**
+- Play-again input stays strict lowercase `y`/`n`; `Y` is rejected. **I raised it a second time
+  after Visal had decided, and Visal was rightly angry about it.** My mistake. Once Visal makes a
+  judgement call, state the cost once and drop it.
+- Kept an explicit `if / else if / else` chain in `wantsToPlayAgain` rather than a guard clause, so
+  all three outcomes are visible. Valid style choice.
+
+**Shaky, revisit next time**
+- Finishing/read-back: better once prompted, but nothing is fully fixed on the first attempt yet.
+- Reaching for plausible-sounding terms ("operator" for method, earlier "exit code").
+- Still unfixed by design: `parseInt` crashes on non-numeric input (the game dies on `abc`);
+  `Scanner` never closed; `double` for money in `TipCalculator`; magic `3` in `Average.java`.
+- Minor wording: `"The number should be at least %d and cannot be greater than %d."` is clunky;
+  `"Correct."` is a flat win message. Not pushed tonight.
+
+**Next session (weekend):** ship Week 2. Visal writes the Week 2 README section themselves; the
+Week 1 README is still my writing. Then Week 3 (arrays, `ArrayList`, `HashMap`) — the magic `3`
+in `Average.java` is the natural opening.
