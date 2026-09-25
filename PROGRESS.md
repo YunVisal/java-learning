@@ -513,3 +513,35 @@ What this changes for the open threads above:
 
 **Next session:** Week 3, arrays, `ArrayList`, `HashMap`. Open with the magic `3` in `Average.java`, then
 build toward the transaction ledger. Week 3's README is Visal's to write, with reviews one point at a time.
+
+## 2026-09-25 — Week 3, session 1 (Monday): arrays
+
+**Built / did**
+- Warm-up: `.equals` is a method, not an operator. Visal's clue was "parentheses"; completed it to
+  "dot + parentheses" (`(a + b)` has parentheses too).
+- `ArrayBasics.java`: an `int[] amounts`; printed the first and the last amount (`amounts[amounts.length - 1]`),
+  a total with a `for` loop over `.length`, and the largest transaction (starts at `amounts[0]`, loop from `i = 1`).
+- Output labels added after review (bare numbers → `First amount: …`, `Total spent: …`).
+- `Average.java`: **magic `3` fixed**. The scores are now in an array, summed in a loop, divided by `scores.length`.
+- Ran `amounts[amounts.length]` on purpose and read the `ArrayIndexOutOfBoundsException`.
+
+**Understood**
+- Why arrays: you can't loop over `score1`, `score2`, `score3`. Indexes start at 0, so 5 items → indexes 0–4.
+- `i < 5` vs `i < amounts.length`: the hard-coded number goes out of sync, and a *silently* wrong total is the
+  worst bug in finance.
+- Integer division: `257 / 3` → `85` → `85.0`. Answered correctly.
+- Max: starting at `0` fails for all-negative amounts (prints a number not in the array); start at `amounts[0]`.
+
+**Shaky, revisit next time**
+- **`length - 1` in the wrong place.** Wrote `i < amounts.length - 1` in the max loop, which skipped the last
+  item. It was hidden because the test data had the max in the middle. Needed two prompts: the `p` typo was fixed
+  first but the `- 1` stayed, and the suggested test wasn't run. Rule: `length - 1` is for *indexing the last
+  element*, `i < length` is for *looping*. Test values at the edges (first/last).
+- Read-back before "done": a typo (`1p`) sent as done. Same habit as Week 2; still the main thing to work on.
+- English: singular subject → verb -s ("longer code lead", "which make"). Still the most frequent error.
+- Reasoning answers are right but loose ("every index need to minus 1", "amounts[0] is already max").
+  Push for precise wording.
+
+**Next session (Tuesday): practice.** Start with a quick edge-case check on the max loop (max in the last position).
+Then `ArrayList`: why a fixed-size array doesn't fit a ledger where transactions keep being added. Exercises one
+at a time, finance-flavored. Possibly introduce the for-each loop.
