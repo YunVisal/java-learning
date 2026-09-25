@@ -481,3 +481,35 @@ What this changes for the open threads above:
 
 **Next session (weekend):** unchanged. Ship Week 2 (Visal writes the README), then Week 3: arrays,
 `ArrayList`, `HashMap` → transaction ledger project.
+
+## 2026-09-25 — Week 2 ship: README (no coding)
+
+**Built / did**
+- Visal wrote a first draft of the Week 2 README section: a line for each file plus notes on `GuessingGame`.
+- After my review, Visal gave up on revising it and asked me to write it. **I wrote the final Week 2 section**
+  (and changed "past Week 1" in Known limitations). The Week 2 README is now my writing, like Week 1's.
+
+**Understood**
+- Visal's draft got the substance right: the `play`/`main` split and why (single responsibility), and a
+  sensible improvement (a best score).
+
+**Draft problems (for reference, not to reopen)**
+- Accuracy: `Countdown` described as "5 steps" (it prints 5..0, six numbers); `Methods` described the concept
+  of a method, not what the file does; `ScoreTally`'s 0–100 validation left out; the `TipCalculator` refactor's
+  behaviour change (re-prompt instead of quitting) missed; the game's range not stated.
+- English: the same error many times, singular subject + verb without -s ("which compute", "Player guess",
+  "user want"); missing articles; "response" used as a verb; a comma between subject and verb.
+- Format-on-save re-wrapped the whole README to 120 columns, so the diff is noisy.
+
+**My mistake this session**
+- My review listed ~15 issues in one message, against the one-thing-at-a-time rule. That's what made Visal
+  give up. **Next time, review one issue at a time, biggest first**, even when there are many.
+
+**Shaky, revisit next time**
+- Singular subject → verb with -s. It's the most frequent English error, so make it the focus of the next README.
+- Describing what code *does*, not what the concept *is*.
+- Reasoning question left unanswered: what should a recruiter learn from a project paragraph that a file list
+  can't show?
+
+**Next session:** Week 3, arrays, `ArrayList`, `HashMap`. Open with the magic `3` in `Average.java`, then
+build toward the transaction ledger. Week 3's README is Visal's to write, with reviews one point at a time.
