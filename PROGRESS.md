@@ -545,3 +545,38 @@ build toward the transaction ledger. Week 3's README is Visal's to write, with r
 **Next session (Tuesday): practice.** Start with a quick edge-case check on the max loop (max in the last position).
 Then `ArrayList`: why a fixed-size array doesn't fit a ledger where transactions keep being added. Exercises one
 at a time, finance-flavored. Possibly introduce the for-each loop.
+
+## 2026-09-26 — Week 3, session 2 (Tuesday): ArrayList, for-each, try/catch
+
+**Built / did**
+- Warm-up: `length - 1` indexes the last item; `i < length` loops over every item. With 5 items, `i < length - 1`
+  stops at `i = 3` and skips `amounts[4]`. Answered precisely.
+- `Ledger.java`: an `ArrayList<Integer>` of 5 expenses; printed the count (`size()`), first and last (`get(0)`,
+  `get(size() - 1)`), the total with an index loop and again with a for-each loop, then `remove(1)` and printed
+  each item with its index.
+- `ExpenseInput.java`: reads expenses until `0` (not added), with input in its own `readExpense` method. Bad input
+  (`abc`, `12.50`) is caught with `try`/`catch (NumberFormatException)` and asked again (`while (true)` + `return`).
+  Prints count, total (for-each) and largest; an empty list is handled with `isEmpty()`.
+
+**Understood**
+- `ArrayList` grows; arrays don't. `Integer`, not `int`, inside `<>`.
+- `length` is a field (no parentheses); `size()` is a method.
+- For-each hides the index: use an index loop when you start at `i = 1`, need the position, or compare neighbours.
+- `return` inside `try` ends the whole method, not just the loop. His walk-through of the `try`/`catch` flow was
+  precise and correct.
+- Exceptions are for surprises. The first "largest" version caught `NoSuchElementException` for an empty list;
+  rewritten with `if (expenses.isEmpty())`, because an empty ledger is a normal case you can check.
+- `remove(index)` shifts every later item one place left (predicted correctly; wording needed sharpening).
+
+**Shaky, revisit next time**
+- **Read-back before "done"**: typo `toalExpenses`; leftover `readExpense` + `Scanner` import in `Ledger`, and
+  the import survived the first "done". Still the main habit. Tips given: Shift+F6 rename, Ctrl+Alt+O imports.
+- **Test data**: first `Ledger` data had `2` at index 1 and at the end, so a wrong index wouldn't show. Rule:
+  every position gets a different value.
+- `Ledger.java` got overwritten once while creating `ExpenseInput` (the `add` lines were lost → exception). Fixed.
+- English: "which make" → "makes" (the -s again), "is threw" → "is thrown", "due to + clause" → "because".
+- Not handled yet: negative expenses are accepted; the removing-inside-a-loop bug (mentioned, not shown).
+
+**Next session (Thursday): practice + review.** Harder exercises: reject negative amounts; income vs expenses
+(signs or two lists) and a balance; then introduce `HashMap` (category → total) as the step toward the Week 3
+transaction ledger project.
