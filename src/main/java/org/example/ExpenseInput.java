@@ -42,7 +42,11 @@ public class ExpenseInput {
         while (true) {
             try {
                 System.out.print("Enter the expense (0 to stop): ");
-                return Integer.parseInt(scanner.nextLine());
+                int value = Integer.parseInt(scanner.nextLine());
+                if (value >= 0) {
+                    return value;
+                }
+                System.out.println("Amount can't be negative, try again.");
             } catch (NumberFormatException ex) {
                 System.out.println("Invalid input! Please enter a whole number.");
             }

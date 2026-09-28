@@ -580,3 +580,42 @@ at a time, finance-flavored. Possibly introduce the for-each loop.
 **Next session (Thursday): practice + review.** Harder exercises: reject negative amounts; income vs expenses
 (signs or two lists) and a balance; then introduce `HashMap` (category → total) as the step toward the Week 3
 transaction ledger project.
+
+## 2026-09-29 — Week 3, session 3 (Thursday): validation, balance, HashMap
+
+**Built / did**
+- Warm-up: test data `[5, 2, 8, 2]` hides a `get(1)`-instead-of-last bug. Rule sharpened to "every position gets
+  a different value".
+- `ExpenseInput.java`: negative amounts are rejected with an `if` inside `readExpense` and asked again.
+- `Balance.java`: signed amounts (option A: positive = income, negative = expense, `0` stops). Prints total income,
+  total expenses (`Math.abs`) and the balance. Tested: 500, -20, abc, -35 → 500 / 55 / 445, which is correct.
+- `CategoryTotals.java`: category → total map. The first version used `merge(..., Integer::sum)`, which Visal
+  couldn't explain, so it was rewritten with `get` + `put`, then `getOrDefault(key, 0)` for every line so the order
+  doesn't matter. Switched `HashMap` → `TreeMap` for sorted output.
+
+**Understood**
+- `parseInt("-5")` doesn't throw, so a negative amount *must* be an `if`. (Correction: a caught exception doesn't
+  end the program. `if` is for expected, checkable cases; exceptions are for what you can't easily check first.)
+- Signed-amount weakness: a missing minus sign silently puts the amount in the wrong category (the balance is off
+  by 2× the amount).
+- `get` on a missing key returns `null`, and `null + 35` → `NullPointerException`. Predicted correctly.
+  `getOrDefault(key, 0)` fixes it.
+- For-each over `entrySet()`: each `total` is one `Map.Entry`. For the food entry, `getKey()` → "food" and
+  `getValue()` → 55.
+- `HashMap` has no order; `LinkedHashMap` keeps insertion order; `TreeMap` sorts. Predicted TreeMap's order correctly.
+
+**Shaky, revisit next time**
+- **Using code he can't explain** (`merge`, `Integer::sum`; the `entrySet` loop was first explained as "EntrySet
+  type"). He answered "I'm not sure" honestly, which is good. Keep asking him to explain any untaught code.
+- Read-back: unused `ArrayList` import in `Balance` (found it quickly when asked). He later removed the `HashMap`
+  import on his own, which is progress. No test output pasted with the first "done".
+- English: "due to + clause" again (fixed to "because"); "which cause" → "causes"; "the item … and the last item
+  has" → "have". He wrote "returns" correctly later.
+- Unfinished exercise: `addExpense(map, category, amount)` method to replace the four repeated lines.
+
+**My mistake this session**
+- Sent a task message with a design choice, a reasoning question, a test and an English note all at once. Visal
+  called it out. One action per message, including for tasks.
+
+**Next session (Saturday): build.** Start with the unfinished `addExpense` method, then begin the Week 3 project,
+the transaction ledger: read category + amount from the user, keep totals per category, show the balance.
