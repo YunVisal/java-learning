@@ -619,3 +619,30 @@ transaction ledger project.
 
 **Next session (Saturday): build.** Start with the unfinished `addExpense` method, then begin the Week 3 project,
 the transaction ledger: read category + amount from the user, keep totals per category, show the balance.
+
+## 2026-09-30 — Week 3, session 4 (short session): addExpense method
+
+**Built / did**
+- Warm-up: `getOrDefault("food", 0)` returns `0` the first time (no key yet → fallback) and `20` the second time
+  (key exists → its value). Answered correctly and clearly.
+- `CategoryTotals.java`: finished the leftover exercise. `static void addExpense(Map<String, Integer> map,
+  String category, int amount)` does the get-or-default + put; the four repeated lines in `main` are now four calls.
+- Review fix: parameter type `TreeMap` → `Map`, so any map (`HashMap`, `LinkedHashMap`, `TreeMap`) can be passed.
+
+**Understood**
+- A `void` method can still change the map because the caller and the method both refer to the same object.
+  Precise wording: Java passes a *copy of the reference* ("always pass-by-value"). `put` changes the shared map,
+  but reassigning the parameter inside the method wouldn't change `main`'s variable.
+- Declare parameters with the interface (`Map`) when the method only needs what every map can do.
+
+**Shaky, revisit next time**
+- Said "passed by reference". The idea is right, but the term is technically wrong for Java. Worth a quick check.
+- Called the `TreeMap` a "hashmap" in his answer. Small, but keep the three map types distinct.
+- English: "the getOrDefault try" → "tries" (singular subject → verb -s, still the most frequent error);
+  "the key is exist" → "the key exists".
+- Test output not pasted (my instruction was unclear; he didn't know what to paste). Next time ask for the
+  console output explicitly.
+
+**Next session (moved from Saturday): build.** Start the Week 3 transaction ledger project: read category +
+amount from the user (reuse `readExpense`-style validation and `addExpense`), keep totals per category, show
+income, expenses and the balance. Then the README, with one review point at a time.
