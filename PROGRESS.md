@@ -685,3 +685,33 @@ income, expenses and the balance. Then the README, with one review point at a ti
 
 **Next session: polish + ship.** Small polish (the trailing `.` in `food: 20.`, blank category input), then the
 README (English practice), one review point at a time. Then Week 4: OOP.
+
+## 2026-10-01 — Week 3, session 6 (ship): ledger polish + README
+
+**Built / did**
+- `TransactionLedger.java` polish: `readCategory` rejects blank input with `isBlank()` and asks again; categories
+  are `trim().toLowerCase()`-ed in `main` (one place, consistent with his earlier design reason); removed the
+  trailing `.` from category lines. All tested with pasted Run output.
+- README: wrote the TransactionLedger paragraph and the Week 3 lines for `ArrayBasics`, `Average` and `Ledger`,
+  revised one review point at a time. Claude wrote the remaining file lines (`ExpenseInput`, `Balance`,
+  `CategoryTotals`, `TransactionLedger`) and updated "Known limitations", at his request.
+- CLAUDE.md: Visal now writes only the project paragraph of the README; Claude writes the file list and limitations.
+
+**Understood**
+- Predicted the blank-category (`: 20`) and leading-space (` food` vs `food`) bugs before running. `trim()` named
+  without help.
+- Subject–verb agreement goes with the *real* subject: "the issue … is removed", not the nearest noun ("scores").
+- Backticks are for exact code (`ArrayList`, `0`); concepts are plain English with an article ("an array",
+  "a for-each loop").
+- `remove(1)` removes the *second* item: index 1, counted from 0.
+
+**Shaky, revisit next time**
+- **README accuracy**: first drafts described things the code doesn't do ("list of recorded transactions",
+  "removes the first expense", "total and total"). Check each claim against the code.
+- **"done" without finishing**: said all `user` → `the user` was done with two still missing.
+- English: verb -s after a singular subject ("combine", "pick", "finish") is still the most frequent error.
+- Motivation dropped during the long README review (many small points in a row). Next time keep README review to
+  2–3 points and the session shorter.
+
+**Next session: Week 4, Monday — OOP.** Classes and objects: why an `Account` class instead of loose variables.
+Week 3 is shipped once he commits and pushes.

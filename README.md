@@ -53,12 +53,41 @@ All source lives in `src/main/java/org/example/`.
 
 **GuessingGame**
 
-The program picks a secret number from 1 to 100. The player keeps guessing, and after each guess the game says "Too
-low" or "Too high". When the player gets it right, the game shows how many attempts it took and asks whether to play
-again. A guess outside 1–100 is rejected and doesn't count as an attempt, so a typo doesn't cost the player anything.
-I split the code so that `play` runs one round and `main` runs the whole session. Each method has one responsibility
-(the Single Responsibility Principle), which makes each part easier to read and change on its own. Next, I would like
-to add a best score that is kept across rounds, so the player has something to beat.
+The program picks a secret number from 1 to 100. The player keeps guessing, and after each guess the game says "Too low"
+or "Too high". When the player gets it right, the game shows how many attempts it took and asks whether to play again. A
+guess outside 1–100 is rejected and doesn't count as an attempt, so a typo doesn't cost the player anything. I split the
+code so that `play` runs one round and `main` runs the whole session. Each method has one responsibility (the Single
+Responsibility Principle), which makes each part easier to read and change on its own. Next, I would like to add a best
+score that is kept across rounds, so the player has something to beat.
+
+**Week 3**
+
+- `ArrayBasics.java` — prints the first, last, max amount and total amount of the amount list. Uses an array to store
+  the list of amounts.
+- `Average.java`(refactor) — combines each score into scores' array. By doing so, the multiple variables to store each
+  score are removed and also the hard-coded magic number. It now divides by the actual length of the array, so the issue
+  with the mismatch of the number of scores is removed.
+- `Ledger.java` — prints the first, last, count and total amount of the expenses list. It removes the second expense
+  as well. Uses an `ArrayList` to store the list of amounts, a for-each loop to iterate over the list.
+- `ExpenseInput.java` — reads expenses until the user types `0`, then prints the count, the total and the largest
+  expense. Bad input (`abc`, `12.50`) and negative amounts are rejected and the user is asked again. Uses `try`/`catch`
+  for `NumberFormatException`, and `isEmpty()` to handle a ledger with no expenses.
+- `Balance.java` — reads signed amounts (positive for income, negative for expense, `0` to stop) and prints total
+  income, total expenses and the balance. Its weakness led to the project's design: a forgotten minus sign silently
+  turns an expense into income.
+- `CategoryTotals.java` — adds up expenses per category in a `TreeMap`, so the output is sorted by category name. Uses
+  an `addExpense` method with `getOrDefault` so a category's first expense doesn't cause a `NullPointerException`.
+- `TransactionLedger.java` — **Week 3 project.** A transaction ledger (see below).
+
+**TransactionLedger**
+
+The program records the income and expense of the user. It will ask for transaction's category and amount. When the user
+finishes their recording by typing 'done', it will print out the list of each transaction's category and its total
+amount along with the summarization of total expense, total income and remaining balance. To differentiate between the
+income and expense record, I prompt the user to input the transaction type before asking them to input category and
+amount. By doing this, I make sure the balance is not wrong by twice the amount in case the user forgets the minus sign
+on expense record. As for the next improvement, I want to display the separate list of income and expense by the end of
+the program.
 
 ## Running it
 
@@ -73,8 +102,9 @@ java -cp target/classes org.example.TipCalculator
 
 Deliberate, and noted so I remember to come back to them:
 
-- Non-numeric input crashes the programs that read numbers — needs exception handling, which I haven't learned yet.
+- Non-numeric input still crashes some Week 1–2 programs. The Week 3 programs catch `NumberFormatException` and ask
+  again.
 - Money is stored in `double`. Fine at this scale, wrong for real currency; production code uses `BigDecimal` or integer
   cents.
-- `Average.java` hardcodes the divisor `3`, which has to be kept in sync with the number of score variables by hand.
-  Arrays fix this in Week 3.
+- `TransactionLedger` keeps only one total per category; the individual transactions are not stored, so they can't be
+  listed or corrected afterwards.

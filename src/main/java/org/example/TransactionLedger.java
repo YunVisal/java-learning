@@ -23,7 +23,7 @@ public class TransactionLedger {
             }
             String category = readCategory(scanner);
             int amount = readAmount(scanner);
-            addToTotal(totals, category.toLowerCase(), amount);
+            addToTotal(totals, category.trim().toLowerCase(), amount);
 
             if (transactionType.equalsIgnoreCase(INCOME_TYPE_WORD)) {
                 totalIncome += amount;
@@ -33,7 +33,7 @@ public class TransactionLedger {
         }
 
         for (Map.Entry<String, Integer> total : totals.entrySet()) {
-            System.out.printf("%s: %d.%n", total.getKey(), total.getValue());
+            System.out.printf("%s: %d%n", total.getKey(), total.getValue());
         }
 
         System.out.printf("Total income: %d%n", totalIncome);
@@ -43,8 +43,14 @@ public class TransactionLedger {
     }
 
     public static String readCategory(Scanner scanner) {
-        System.out.print("Category: ");
-        return scanner.nextLine();
+        while (true) {
+            System.out.print("Category: ");
+            String input = scanner.nextLine();
+            if (!input.isBlank()) {
+                return input;
+            }
+            System.out.println("Category can't be empty, try again.");
+        }
     }
 
     public static int readAmount(Scanner scanner) {

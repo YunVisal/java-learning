@@ -90,5 +90,6 @@
 
 ## English writing
 
-- Every Sunday README is also English writing practice: explain what I built, why I made my design choices, and what I'd
-  improve.
+- Every Sunday I write only the project paragraph in the README myself (English writing practice): what I built, why I
+  made my design choices, and what I'd improve.
+- You write the README's list of the week's practice files and update "Known limitations". Don't ask me to write those.
