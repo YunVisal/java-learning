@@ -715,3 +715,30 @@ README (English practice), one review point at a time. Then Week 4: OOP.
 
 **Next session: Week 4, Monday — OOP.** Classes and objects: why an `Account` class instead of loose variables.
 Week 3 is shipped once he commits and pushes.
+
+## 2026-10-01 — Week 4, session 1 (Monday): classes and objects
+
+**Built / did**
+- `Account.java`: fields `owner` (String) and `balance` (int, BigDecimal comes later this week), plus an instance
+  method `deposit(int amount)` (`balance += amount`).
+- `AccountDemo.java`: two accounts made with `new`, fields set directly, printed with `printf("%s: %d%n", ...)`.
+  `account2.deposit(50)` → John 10 → 60, Visal unchanged at 300. Pasted real Run output both times, unprompted
+  beyond the task line. Clean code, no unused imports.
+
+**Understood**
+- `Account account3 = account1;` copies the reference; `new` ran twice, so only two objects exist. Changing
+  `account3.balance` changes `account1`. Answered correctly right away.
+- An instance method works on the object it was called on (`account2.deposit` → `account2`'s balance).
+- `balance = -500` from outside is bad for a bank; making `balance` `private` stops it. Answered correctly.
+
+**Shaky, revisit next time**
+- Thought making `deposit` `static` would make the fields static. Corrected: it's a compile error ("non-static
+  variable … static context"); the *danger* he named (one shared balance) only happens if you also make the field
+  static. Quick check on Tuesday.
+- Not yet covered: once `balance` is `private`, how does `main` read it or set the starting value? → constructors
+  and getters.
+- English: "access to every fields" → "access every field"; "make it into" → "makes it"; "In that cause" →
+  "In that case"; "the field are" → "the fields are" (singular/plural agreement is still the main pattern).
+
+**Next session (Tuesday): practice.** Make `balance` (and `owner`) `private`, see what breaks in `AccountDemo`,
+then a constructor and getters. Exercises one at a time; then `withdraw` that refuses to go negative.
