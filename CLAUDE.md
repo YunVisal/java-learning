@@ -32,6 +32,9 @@
 
 - When I ask for a review, read my code and point out bugs, bad practices, and better approaches.
 - Explain what is wrong and why, but let me write the fix myself.
+- Never ask me to paste my code. Read the file yourself.
+- When you want test output, say exactly what to type as input, and ask me to copy the text from IntelliJ's Run
+  window (click inside it, Cmd+A, Cmd+C) and paste it here.
 - Be honest and direct. Don't just praise working code if it could be cleaner.
 - Check my answers to the reasoning questions and correct any misunderstandings.
 

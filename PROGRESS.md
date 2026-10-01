@@ -646,3 +646,42 @@ the transaction ledger: read category + amount from the user, keep totals per ca
 **Next session (moved from Saturday): build.** Start the Week 3 transaction ledger project: read category +
 amount from the user (reuse `readExpense`-style validation and `addExpense`), keep totals per category, show
 income, expenses and the balance. Then the README, with one review point at a time.
+
+## 2026-10-01 — Week 3, session 5 (build): transaction ledger project
+
+**Built / did**
+- Warm-up: if `addExpense` did `map = new TreeMap<>()`, `main`'s map would not change. Answered correctly: only
+  the copy of the reference is pointed at the new map. ("pass-by-value of the reference" now used correctly.)
+- `TransactionLedger.java` (Week 3 project), built step by step:
+  - `readType` (income/expense/done, any capitalization, retries on invalid input), `readCategory`,
+    `readAmount` (retries on non-numbers, rejects zero and negatives), `addToTotal` (get-or-default + put).
+  - `EXIT_WORD`, `INCOME_TYPE_WORD`, `EXPENSE_TYPE_WORD` as `static final` constants, also used inside prompts.
+  - Categories lower-cased in `main` so `Food`/`food` share one total; `Map<String, Integer> totals = new TreeMap<>()`.
+  - Prints per-category totals, total income, total expenses, balance. Tested: 500 income, 20 + 300 expense →
+    500 / 320 / 180. Tested -20 and 0 rejected → expenses 20, balance -20.
+- Updated CLAUDE.md: Claude reads code itself; when asking for test output, say exactly what to type and to paste
+  the Run window text.
+
+**Understood**
+- `equals` is case-sensitive → `equalsIgnoreCase` for the exit word; map keys are case-sensitive too, so normalize
+  before storing. TreeMap sorts uppercase before lowercase.
+- Design reason for lower-casing in `main`: each method does only what its name says. Good reasoning.
+- Exit-first `if` + `break` reads better than `if (!...) ... else break`.
+- Signed amounts are fragile (missing minus → balance off by 2× the amount); asking the type first fixes that, and
+  then the amount must always be positive.
+- `return scanner.nextLine()` after validation reads a *new* line; return the already-checked variable.
+
+**Shaky, revisit next time**
+- **Test before "done"**: said "done" twice without running (`readType` had the `nextLine` bug; `readAmount`).
+  Once pasted an identical old output. Better than before, but still the main habit.
+- **Read-back**: unused `Locale` import (from autocomplete); accidentally deleted the category print loop and
+  didn't notice the output no longer matched the task. Compare output with the task line by line.
+- English: "will be treat" → "treated", "forget" → "forgets", "which cause" → "causes", "2 time" → "twice".
+  Typos: "readCateogry", "tranasaction", "expenes".
+
+**My mistake this session**
+- Asked "paste your code and the output" without saying what exactly to paste (same as last time). Fixed in
+  CLAUDE.md. Also once added a design decision on top of a task in the same message.
+
+**Next session: polish + ship.** Small polish (the trailing `.` in `food: 20.`, blank category input), then the
+README (English practice), one review point at a time. Then Week 4: OOP.
