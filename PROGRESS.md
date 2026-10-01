@@ -774,3 +774,44 @@ then a constructor and getters. Exercises one at a time; then `withdraw` that re
 
 **Next session (Thursday): practice + review.** Warm-up on the duplicated amount check, then `transfer(Account to,
 int amount)`, then why `int`/`double` are wrong for money → `BigDecimal`.
+
+## 2026-10-01 — Week 4, session 3 (Thursday): helper method, transfer, why BigDecimal
+
+**Built / did**
+- `Account.java` cleanup, one point at a time:
+  - Duplicated `amount <= 0` check moved into `private void validateAmount(int amount)`; `deposit` and `withdraw`
+    call it. Tested `withdraw(-20)` → same message, stack trace shows `withdraw` → `validateAmount`.
+  - `deposit` / `withdraw` made `public`; constructor message changed from "Amount" to "Balance".
+- `transfer(Account to, int amount)`: `withdraw(amount)` then `to.deposit(amount)`. Tested 50 from Visal (200 → 150)
+  to John (60 → 110).
+  - Self-transfer check: first version compared `to.owner.equals(owner)` (bug: blocks two different accounts with
+    the same owner). Then `to.equals(this)`, then `to == this`. Tested `account1.transfer(account1, 50)` → throws
+    before any money moves.
+- `MoneyDemo.java`: `0.1 + 0.2` with `double` → `0.30000000000000004`; with `new BigDecimal("0.1").add(...)` → `0.3`.
+  Pasted real Run output every time.
+
+**Understood**
+- A rule written twice drifts apart; one helper gives it one home. Internal helpers are `private`, actions are `public`.
+- Error messages should name the value that's actually wrong.
+- `withdraw` before `deposit` in `transfer`: if withdraw throws, nothing has changed (deposit first would create
+  money). Answered right away.
+- Predicted the bad inputs for `transfer` (0, negative → throw; too big → insufficient). Missed self-transfer until
+  asked, then traced it correctly (balance unchanged, but a bank should reject it).
+- `==` = same object; `equals` can be redefined by a class (String compares text), so "same account" checks use `==`.
+- `double` is binary, so 0.1 isn't exact; small errors add up over many transactions. `new BigDecimal(0.1)` copies the
+  `double`'s error, so create money from a `String`.
+
+**Shaky, revisit next time**
+- "Same object" vs "same data": first reached for the owner name. Quick check: two `new Account("Visal", 300)` —
+  are they `==`? Are they the same account?
+- Edge-case listing is better (3 of 4 cases unprompted). Keep asking "what else could go wrong?" before testing.
+- Not covered yet: `null` passed as `to` (would throw NullPointerException); BigDecimal in `Account` itself
+  (`compareTo` instead of `<`, `subtract`, `signum`).
+
+**My mistake this session**
+- Gave a task and its test instructions in one message again ("dude one thing at a time"). Task messages = only the
+  build step and the finished result.
+
+**Next session (Saturday): build.** Week 4 project: switch `Account` from `int` to `BigDecimal` (created from
+Strings), one method at a time, then a small menu-driven bank demo (deposit / withdraw / transfer between two
+accounts). Warm-up: the "same object vs same data" check above.

@@ -13,7 +13,9 @@ public class AccountDemo {
         account1.withdraw(100);
         System.out.printf("%s: %d%n", account1.getOwner(), account1.getBalance());
 
-        account1.withdraw(-50);
-        account1.withdraw(1000);
+        account1.transfer(account1, 50);
+
+        System.out.printf("%s: %d%n", account1.getOwner(), account1.getBalance());
+        System.out.printf("%s: %d%n", account2.getOwner(), account2.getBalance());
     }
 }
