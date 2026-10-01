@@ -742,3 +742,35 @@ Week 3 is shipped once he commits and pushes.
 
 **Next session (Tuesday): practice.** Make `balance` (and `owner`) `private`, see what breaks in `AccountDemo`,
 then a constructor and getters. Exercises one at a time; then `withdraw` that refuses to go negative.
+
+## 2026-10-01 — Week 4, session 2 (Tuesday): private, constructor, getters, validation
+
+**Built / did**
+- Warm-up: `static deposit` with instance fields → compile error, "static method can't access non-static balance".
+  Correct; Monday's misunderstanding is fixed.
+- `Account.java`: fields `private`; saw the "has private access" compile errors. Added a `public` constructor
+  `Account(String owner, int balance)` with `this.owner = owner`, and `public` getters `getOwner()`/`getBalance()`.
+- Validation with `throw new IllegalArgumentException(...)`:
+  - constructor rejects a negative starting balance (`< 0`; `0` allowed). Tested -500 (crash) and 0 (runs).
+  - `deposit` rejects `amount <= 0`. Tested -20.
+  - `withdraw(int amount)`: rejects `amount <= 0`, then "Insufficient balance." if `balance - amount < 0`.
+    Tested 100 (300 → 200), -50 (amount message), 1000 (insufficient).
+- Pasted real Run output for every step.
+
+**Understood**
+- `private` blocks direct writes from outside, but every method that changes a field still has to validate its input.
+  Found both holes (constructor, negative deposit) on his own.
+- A class can't re-ask the user like `readAmount` did; it throws so the caller learns about its mistake.
+- `<init>` in a stack trace means the constructor.
+- `withdraw(-50)` with balance 200 → 250 ("withdraw negative adds money"). Traced it correctly when asked.
+
+**Shaky, revisit next time**
+- **Testing only the expected inputs**: first `withdraw` passed his tests but allowed negative amounts. Habit to
+  build: for each method, also test 0, a negative number, and a value that's too big.
+- Pasted only one of two requested outputs once (the `0` constructor case). Fine after a reminder.
+- Small cleanups still open (not raised yet): `deposit`/`withdraw` repeat the same `amount <= 0` check (a private
+  helper could do it); `deposit`/`withdraw` have no `public` while the getters do; constructor message says
+  "Amount" for a starting balance.
+
+**Next session (Thursday): practice + review.** Warm-up on the duplicated amount check, then `transfer(Account to,
+int amount)`, then why `int`/`double` are wrong for money → `BigDecimal`.
