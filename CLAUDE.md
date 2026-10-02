@@ -34,7 +34,8 @@
 - Explain what is wrong and why, but let me write the fix myself.
 - Never ask me to paste my code. Read the file yourself.
 - When you want test output, say exactly what to type as input, and ask me to copy the text from IntelliJ's Run
-  window (click inside it, Cmd+A, Cmd+C) and paste it here.
+  window (Java) or VS Code's terminal (Dart/Flutter) — click inside it, Cmd+A, Cmd+C — and paste it here.
+- IDEs: IntelliJ IDEA for Java, VS Code (official Dart and Flutter extensions) for Dart and Flutter.
 - Be honest and direct. Don't just praise working code if it could be cleaner.
 - Check my answers to the reasoning questions and correct any misunderstandings.
 

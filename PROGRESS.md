@@ -913,4 +913,8 @@ decimals, e.g. `25.5`; only two hard-coded accounts; no account numbers; no save
 - Re-read the finished result before saying "done" (happened again, step 2 of the paragraph).
 
 **Next session (Monday): Week 5, Dart basics.** Warm-up: the `AtmApp` question above. Then Dart setup and first
-concept, aiming at rewriting `Account` in Dart for the weekly project.
+concept, aiming at rewriting `Account` in Dart for the weekly project. Setup decided: VS Code (Visal's choice, over
+IntelliJ/Android Studio) with the Dart and Flutter extensions, plus the Flutter SDK (includes Dart) and a new
+`dart-learning` repo at `~/Documents/dart/dart-learning` (wallet app gets its own repo in Week 6). Start Monday's
+session in `java-learning`, then copy `CLAUDE.md` into the new repo and start a `PROGRESS.md` there continuing from
+Week 4. Android SDK/emulator only needed in Week 6.
