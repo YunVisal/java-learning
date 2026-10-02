@@ -815,3 +815,79 @@ int amount)`, then why `int`/`double` are wrong for money → `BigDecimal`.
 **Next session (Saturday): build.** Week 4 project: switch `Account` from `int` to `BigDecimal` (created from
 Strings), one method at a time, then a small menu-driven bank demo (deposit / withdraw / transfer between two
 accounts). Warm-up: the "same object vs same data" check above.
+
+## 2026-10-01 — Week 4, session 4 (Saturday): BigDecimal Account + menu-driven BankApp
+
+**Built / did**
+- Warm-up: two `new Account("Visal", 300)` → `a == b` is false, two different accounts with the same data. Correct
+  right away; Thursday's "same object vs same data" gap is closed.
+- `Account.java` switched from `int` to `BigDecimal`, one method at a time: field/constructor/getter
+  (`compareTo(BigDecimal.ZERO) < 0`), `validateAmount` (`<= 0`), `deposit` (`balance = balance.add(amount)`),
+  `withdraw` (`subtract`, `remaining` is `BigDecimal`), `transfer`. `AccountDemo` updated: amounts from Strings,
+  `%d` → `%s` (Visal said why: `%s` calls `toString()`).
+- `BankApp.java` (Week 4 project), menu loop with `Scanner`: deposit, withdraw, transfer, show balances, quit.
+  Helpers Visal designed: `readInt`, `readMenuOption`, `readAccountOption`, `readAmount` (re-asks on
+  `NumberFormatException`), `showBalances`, `isCancelOperation`. Constants `QUIT_OPTION_CODE`, `OPERATION_CANCEL_CODE`.
+  `Account` exceptions are caught and the message shown, so bad input never crashes the app.
+- Fixed a trap: withdrawing from a 0-balance account looped forever → added "-1 to cancel".
+- Refactors: cancel rule moved into one helper, then the `-1` text into one constant (prompts use `String.format`).
+- Transfer: same-account check moved earlier (right after choosing the accounts, *fail fast*); first done with
+  `throw` + catch in the same method, then changed to print + `continue`.
+- Tested every step with pasted Run output (25.50 deposit, 50.50 transfer → exact 249.50 / 70.50).
+
+**Understood**
+- `BigDecimal` is an immutable object: no `<`, `+`, `-`; `add`/`subtract` *return* a new value, so
+  `balance.add(amount);` alone silently does nothing. Explained it without help.
+- Constructor boundary: first wrote `<= 0` (rejects 0), traced it and fixed to `< 0` when asked.
+- `transfer` needs no new validation because `withdraw`/`deposit` already validate.
+- Duplication: said "worth fixing, the cancel rule could drift apart", and counted 3 edit places (helper + 2 prompts).
+- Keep `Account`'s own `to == this` check even though `BankApp` checks earlier, because other code may use `Account`.
+- Exceptions are for telling a *caller* about a problem, not for jumping inside your own method.
+
+**Shaky, revisit next time**
+- Didn't spot the infinite withdraw loop alone until asked to trace the 0-balance case. Keep asking "can the
+  user always get out?" for every loop.
+- Answers the "when" but skips the "why" sometimes (fail-fast question).
+- Open cleanups (not raised yet, one at a time): `default` still prints "Not done yet." for invalid options;
+  `isCancelOperation` prints as a side effect (an `isX` method should only answer the question); "1 or 2" is
+  hard-coded instead of using `accounts.length`; after any transfer error the user must re-pick both accounts;
+  amounts with more than 2 decimals (e.g. `0.001`) are accepted.
+- English: "they stuck" → "they are stuck".
+
+**Next session (Sunday): build + ship.** One or two of the cleanups above, then the README: Visal writes the BankApp
+paragraph (what, why BigDecimal + design choices, what Visal would improve); Claude writes the Week 4 file list and Known
+limitations. Keep the README review to 2–3 points.
+
+## 2026-10-02 — Week 4, session 5: BankApp cleanups
+
+**Built / did** (all five open cleanups from session 4, one at a time, final test pasted)
+- `default` case: "Not done yet." → "Invalid option, please try again".
+- `isCancelOperation` made a pure yes/no method. Moving the `println` out first left deposit without a message
+  (forgotten in one of 3 copies); then wrote `checkCancelAndNotify` (name suggested by Claude on request) so the
+  message lives once.
+- `readAccountOption` takes the `accounts` array and checks `1..accounts.length`; prompts say "(1 to N)". First
+  version lost the source/target wording; fixed by passing the prompt as a parameter. Chose full prompts over a
+  label for flexibility (4 `String.format` lines repeat the range) — a deliberate, reasonable trade-off.
+- `transfer` split into two loops one after another (accounts until different, then amount until it works) instead
+  of a nested loop; variables declared before loop 1. Insufficient balance now re-asks only the amount.
+- 2-decimal rule (`scale() > 2`): first put in `BankApp.readAmount`, moved to `Account` after tracing a direct
+  `deposit(0.001)`; then added to the constructor too, and both use `private validateDecimalPlaces(amount, label)`.
+- Temporary `account3` removed. Final run: 20 + 5.5 − 10.25 = 15.25, 300 + 10.25 = 310.25.
+
+**Understood**
+- Duplicated code drifts on the first try: saw it happen with the cancel message.
+- The problem with the `isX` method wasn't printing from a helper but a *name* that hides the side effect.
+- Rules about valid money belong in `Account` so every caller is protected — including the constructor.
+- Two `John` accounts with the same data showed why real banks use unique account numbers.
+- Proposed the nested loop without help, then asked for an alternative; understood why two sequential loops suffice once
+  the same-account check runs first.
+
+**Shaky, revisit next time**
+- Twice did only part of a task's "finished result" (cancel message still in 3 places; "place" → "places" not fixed).
+  Habit: re-read the finished result before saying "done".
+- Answered "please suggest the naming" — naming is still hard; practise by proposing 2 names before asking.
+- English: "it redundant" → "it is redundant"; "it need" → "it needs"; "decimal place" → "decimal places".
+
+**Next session (Sunday): ship.** README: Visal writes the BankApp paragraph (what, why BigDecimal + design choices,
+what Visal would improve); Claude writes the Week 4 file list and Known limitations (balances print without fixed 2
+decimals, e.g. `25.5`; only two hard-coded accounts; no account numbers; no saved data). Keep review to 2–3 points.
