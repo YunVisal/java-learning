@@ -88,8 +88,8 @@
   a design doc for each project.
 - 2028: Apply for part-time European remote contracts.
 
-## English writing
+## README
 
-- Every Sunday I write only the project paragraph in the README myself (English writing practice): what I built, why I
-  made my design choices, and what I'd improve.
-- You write the README's list of the week's practice files and update "Known limitations". Don't ask me to write those.
+- No English writing practice. You write the whole README each Sunday: the week's practice files, the project
+  paragraph (what I built, why I made my design choices, what I'd improve), and "Known limitations". Don't ask me to
+  write any of it.

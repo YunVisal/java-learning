@@ -891,3 +891,26 @@ limitations. Keep the README review to 2–3 points.
 **Next session (Sunday): ship.** README: Visal writes the BankApp paragraph (what, why BigDecimal + design choices,
 what Visal would improve); Claude writes the Week 4 file list and Known limitations (balances print without fixed 2
 decimals, e.g. `25.5`; only two hard-coded accounts; no account numbers; no saved data). Keep review to 2–3 points.
+
+## 2026-10-02 — Week 4, session 6 (Sunday): ship
+
+**Built / did**
+- README Week 4 section: file list (`Account`, `AccountDemo`, `MoneyDemo`, `BankApp`), BankApp paragraph, and Known
+  limitations (Weeks 1–3 `double` note; BankApp: no fixed 2 decimals, two hard-coded accounts without account numbers,
+  nothing saved).
+- Visal drafted the BankApp paragraph; the first draft covered "what" and "improve" but skipped the second design
+  choice (same "partial finished result" habit as session 5). Claude wrote the final version.
+- Rule change: no more English writing practice. Claude now writes the whole README (CLAUDE.md updated).
+
+**Understood**
+- Covered what the app does, why `BigDecimal` (avoids decimal errors), and a next step (database persistence).
+
+**Shaky, revisit next time**
+- Described the validation as living "in each prompt" / "before each request operation"; it actually lives in
+  `Account`, which is why it protects every caller. Didn't answer the check question ("an `AtmApp` with no prompts calls
+  `withdraw(0.001)` — rejected? by which class?"). Ask it again as a quick warm-up before Week 5, since Dart's `Account`
+  will need the same design.
+- Re-read the finished result before saying "done" (happened again, step 2 of the paragraph).
+
+**Next session (Monday): Week 5, Dart basics.** Warm-up: the `AtmApp` question above. Then Dart setup and first
+concept, aiming at rewriting `Account` in Dart for the weekly project.

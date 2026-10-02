@@ -67,8 +67,8 @@ score that is kept across rounds, so the player has something to beat.
 - `Average.java`(refactor) — combines each score into scores' array. By doing so, the multiple variables to store each
   score are removed and also the hard-coded magic number. It now divides by the actual length of the array, so the issue
   with the mismatch of the number of scores is removed.
-- `Ledger.java` — prints the first, last, count and total amount of the expenses list. It removes the second expense
-  as well. Uses an `ArrayList` to store the list of amounts, a for-each loop to iterate over the list.
+- `Ledger.java` — prints the first, last, count and total amount of the expenses list. It removes the second expense as
+  well. Uses an `ArrayList` to store the list of amounts, a for-each loop to iterate over the list.
 - `ExpenseInput.java` — reads expenses until the user types `0`, then prints the count, the total and the largest
   expense. Bad input (`abc`, `12.50`) and negative amounts are rejected and the user is asked again. Uses `try`/`catch`
   for `NumberFormatException`, and `isEmpty()` to handle a ledger with no expenses.
@@ -89,6 +89,28 @@ amount. By doing this, I make sure the balance is not wrong by twice the amount 
 on expense record. As for the next improvement, I want to display the separate list of income and expense by the end of
 the program.
 
+**Week 4**
+
+- `Account.java` — my first class. A bank account with a private owner and `BigDecimal` balance, and `deposit`,
+  `withdraw` and `transfer` methods. The constructor and every method validate their input, so the balance can never go
+  negative and amounts can't have more than 2 decimal places.
+- `AccountDemo.java` — creates two accounts and calls each method. It ends with a transfer from an account to itself,
+  which `Account` rejects with an `IllegalArgumentException`.
+- `MoneyDemo.java` — shows why money uses `BigDecimal`: `0.1 + 0.2` gives exactly `0.3`, while `double` gives
+  `0.30000000000000004`.
+- `BankApp.java` — **Week 4 project.** A menu-driven bank app (see below).
+
+**BankApp**
+
+A menu-driven banking simulator. The user can deposit, withdraw, transfer money between two accounts, and view both
+balances, until they choose to quit. Balances are stored as `BigDecimal` instead of `double`, because `double` can't
+represent amounts like `0.1` exactly and small rounding errors add up. The money rules (no negative balance, no
+amount of zero or less, at most 2 decimal places) live inside the `Account` class, not in the menu code. That way every
+caller is protected, not just `BankApp`: a direct `account.deposit(new BigDecimal("0.001"))` is rejected even without
+any prompt. `BankApp` catches the exceptions `Account` throws and shows the message, so bad input never crashes the app,
+and the user can type `-1` to cancel an operation. Next, I would like to save the accounts to a database, so balances
+survive after the program ends.
+
 ## Running it
 
 Maven project, Java 25. Open in IntelliJ IDEA and run any class's `main` directly, or from the command line:
@@ -104,7 +126,11 @@ Deliberate, and noted so I remember to come back to them:
 
 - Non-numeric input still crashes some Week 1–2 programs. The Week 3 programs catch `NumberFormatException` and ask
   again.
-- Money is stored in `double`. Fine at this scale, wrong for real currency; production code uses `BigDecimal` or integer
-  cents.
+- Weeks 1–3 store money in `double`. Fine at this scale, wrong for real currency; from Week 4 on, `Account` uses
+  `BigDecimal`.
 - `TransactionLedger` keeps only one total per category; the individual transactions are not stored, so they can't be
   listed or corrected afterwards.
+- `BankApp` prints balances without a fixed 2 decimals, so `25.50` shows as `25.5`.
+- `BankApp` has only two hard-coded accounts, identified by owner name; there are no account numbers, so two accounts
+  with the same owner can't be told apart.
+- `BankApp` keeps everything in memory; all balances are lost when the program ends.
